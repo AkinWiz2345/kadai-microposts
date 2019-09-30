@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, {only: [:index, :show, :followings, :followers, :likes]}
+  before_action :require_user_logged_in, {only: [:index, :show, :edit, :update, :followings, :followers, :likes]}
+  before_action :privileged_user, {only: [:edit, :update]}
   
   def index
     @users = User.order(id: :desc).page(params[:page]).per(25)
@@ -26,6 +27,19 @@ class UsersController < ApplicationController
     end
   end
   
+  def edit
+  end
+  
+  def update
+    if @user.update(user_params)
+      flash[:success] = 'Userは正常に更新されました'
+      redirect_to @user
+    else
+      flash[:danger] = 'Userは更新されませんでした'
+      render :edit
+    end
+  end
+  
   def followings
     @user = User.find(params[:id])
     @followings = @user.followings.page(params[:page])
@@ -45,6 +59,14 @@ class UsersController < ApplicationController
   end
   
   private
+  
+  def privileged_user
+    @user = User.find_by(id: params[:id])
+    unless current_user == @user
+      flash[:danger] = '権限がありません'
+      redirect_to @user
+    end
+  end
   
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
