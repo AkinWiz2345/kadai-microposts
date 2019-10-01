@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in, {only: [:index, :show, :edit, :update, :followings, :followers, :likes]}
-  before_action :privileged_user, {only: [:edit, :update]}
+  before_action :privileged_user, {only: [:edit, :update, :destroy]}
   
   def index
     @users = User.order(id: :desc).page(params[:page]).per(25)
@@ -38,6 +38,12 @@ class UsersController < ApplicationController
       flash[:danger] = 'Userは更新されませんでした'
       render :edit
     end
+  end
+  
+  def destroy
+    @user.destroy
+    flash[:success] = 'Userは正常に削除されました'
+    redirect_to root_url
   end
   
   def followings
