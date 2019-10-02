@@ -1,18 +1,6 @@
 <div class="row">
   <aside class="col-sm-4">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title"><%= @user.name %></h3>
-      </div>
-      <div class="card-body">
-        <img class="rounded img-fluid" src="<%= gravatar_url(@user, { size: 500 }) %>" alt="">
-      </div>
-    </div>
-    <%= render 'relationships/follow_button', user: @user %>
-    <% if current_user == @user %>
-      <%= link_to 'Edit User', edit_user_path(@user), class: 'btn btn-success btn-block' %>
-      <%= link_to 'Delete User', @user, method: :delete, data: { confirm: '本当に削除してよろしいですか?' }, class: 'btn btn-danger btn-block' %>
-    <% end %>
+   <%= render 'users/card' %>
   </aside>
   <div class="col-sm-8">
     <%= render 'users/tabs' %>
