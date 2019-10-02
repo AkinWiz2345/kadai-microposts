@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     flash[:success] = 'Userは正常に削除されました'
-    redirect_to root_url
+    redirect_back(fallback_location: root_path)
   end
   
   def profile
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   
   def privileged_user
     @user = User.find_by(id: params[:id])
-    unless current_user == @user
+    unless current_user == @user || current_user.admin?
       flash[:danger] = '権限がありません'
       redirect_to @user
     end
