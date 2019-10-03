@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates :remarks, length: {maximum: 500 }
   has_secure_password
   
+  mount_uploader :image, ImageUploader
+  
   has_many :microposts, dependent: :destroy
   has_many :relationships, dependent: :destroy
   has_many :followings, through: :relationships, source: :follow, dependent: :destroy

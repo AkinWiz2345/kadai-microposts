@@ -26,6 +26,11 @@
       <% end %>
       
       <div class="form-group">
+        <%= f.label :image, 'Image' %><span class="text-warning ml-1">(optional)</span>
+        <%= f.file_field :image %>
+      </div>
+      
+      <div class="form-group">
         <%= f.label :gender, 'Gender' %><span class="text-warning ml-1">(optional)</span>
         <%= f.select :gender, { Unselected: 0, Male: 1, Female: 2 }, class: 'form-control' %>
       </div>
